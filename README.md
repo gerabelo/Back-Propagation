@@ -1,5 +1,5 @@
 ***#Backpropagation:***
-é um método utilizado em Redes Neurais Artificiais (com Aprendizado Supervisionado) 
+* é um método utilizado em Redes Neurais Artificiais (com Aprendizado Supervisionado) 
 para o auto-ajuste de seus pesos através do cálculo da influência de cada neurônio nos erros obtidos durante seu treinamento em um processo conhecido como “Otimização por Gradiente Descendente”.
 
 ***#Aplicações:***
