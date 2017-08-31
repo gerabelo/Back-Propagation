@@ -1,6 +1,6 @@
 ***#Backpropagation:***
-* é um método utilizado em Redes Neurais Artificiais (com Aprendizado Supervisionado) 
-para o auto-ajuste de seus pesos através do cálculo da influência de cada neurônio nos erros obtidos durante seu treinamento em um processo conhecido como “Otimização por Gradiente Descendente”.
+* é um método utilizado em _Redes Neurais Artificiais_ (com Aprendizado Supervisionado) 
+para o auto-ajuste de seus pesos através do cálculo da influência de cada neurônio nos erros obtidos durante seu treinamento em um processo conhecido como “_Otimização por Gradiente Descendente_”.
 
 ***#Aplicações:***
 * Sonar target recognition (Gorman and Sejnowski, 1988);
