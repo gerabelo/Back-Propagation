@@ -1,0 +1,6 @@
+MAX_EPOCAS:200
+taxaDeAprendizado:0.5
+DEBUG:0
+tipoAtivacao:4
+:3
+:2;4;1;
