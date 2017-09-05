@@ -17,4 +17,8 @@ Face Recognition (Mitchell, 1997);
 
 ![equation](https://c1.staticflickr.com/5/4417/36199303024_8b1e924307_o.gif)  
 
-![equation](https://c1.staticflickr.com/5/4374/36893529131_aa9591fd80_o.gif)
+![equation](https://c1.staticflickr.com/5/4374/36893529131_aa9591fd80_o.gif)  
+
+***Gradiente Descendente***  
+  
+https://matheusfacure.github.io/2017/02/20/MQO-Gradiente-Descendente/
