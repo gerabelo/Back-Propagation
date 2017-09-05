@@ -12,3 +12,6 @@ O _BP_ baseia-se na minimização do erro proposta pelos matemáticos Cauchy, 18
 * Zipcode Recognition (Y. LeCun, 1990);
 * ALVINN (Autonomous Land Vehicle In a Neural Network) (Pomerleau, 1996);
 Face Recognition (Mitchell, 1997);
+  
+***Auto-ajuste***
+\omega^+ = \omega - \alpha * (\delta - \beta*m) 
