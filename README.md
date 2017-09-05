@@ -15,5 +15,6 @@ Face Recognition (Mitchell, 1997);
   
 ***Auto-ajuste***  
 
-![equation](https://c1.staticflickr.com/5/4401/37034347935_3f95cf17cb_o.gif)
+![equation](https://c1.staticflickr.com/5/4401/37034347935_3f95cf17cb_o.gif)  
+
 ![equation](https://c1.staticflickr.com/5/4374/36893529131_aa9591fd80_o.gif)
