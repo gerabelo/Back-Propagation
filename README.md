@@ -14,4 +14,6 @@ O _BP_ baseia-se na minimização do erro proposta pelos matemáticos Cauchy, 18
 Face Recognition (Mitchell, 1997);
   
 ***Auto-ajuste***  
-:omega: ^+ = \omega -  	\( \alpha \ A \) * (\delta - \beta*m) 
+\begin{equation}
+\omega^+ = \omega -  	\( \alpha \ A \) * (\delta - \beta*m) 
+\end{equation}
