@@ -1,6 +1,6 @@
-MAX_EPOCAS:200
-taxaDeAprendizado:0.5
+MAX_EPOCAS:800
+taxaDeAprendizado:0.25
 DEBUG:0
-tipoAtivacao:4
+tipoAtivacao:1
 :3
-:2;4;1;
+:8;16;1;
