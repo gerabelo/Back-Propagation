@@ -16,9 +16,10 @@
 #define MAX_VALOR	10
 #define DELIMITER	59
 #define CONFIG		"config.dat"
-#define LOG		"log.csv"
+#define LOG		"pesos_debug.csv"
 #define TREINO          "treino.dat"
 #define PREVISAO        "teste.dat"
+#define LOGENABLE       0
 
 struct inputMatrix 
 {    
@@ -129,7 +130,7 @@ Neuronio* criaRedeNeuronal(int *neuroniosPorCamada)
 	int numeroDeEntradas = 0;
 	int neuronioAtual = 0;
 
-       	camadasQuantidade = 1+sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
+       	camadasQuantidade = NUMERO_DE_CAMADAS;//1+sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
         
         int camadasQuantidade_contador = camadasQuantidade;
         
@@ -198,7 +199,7 @@ Neuronio* criaRedeNeuronal(int *neuroniosPorCamada)
 
 void ajustaPesosAntigos(Neuronio *neuronios,int *neuroniosPorCamada)
 {
-	int numeroDeCamadas = sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
+	int numeroDeCamadas = NUMERO_DE_CAMADAS;//sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
 	int numeroDeNeuronios = 0;
 	int numeroDePesos = 0;
 
@@ -219,7 +220,7 @@ void ajustaPesosAntigos(Neuronio *neuronios,int *neuroniosPorCamada)
 
 void imprimeRedeNeuronal(Neuronio *neuronios, int *neuroniosPorCamada)
 {
-        int camadasQuantidade = 1+sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
+        int camadasQuantidade = NUMERO_DE_CAMADAS;//1+sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
         int neuronioAtual = 0;
         int numeroDeEntradas = 0;
 
@@ -260,7 +261,7 @@ void imprimeRedeNeuronal(Neuronio *neuronios, int *neuroniosPorCamada)
 void imprimeResumo(Neuronio *neuronios, int *neuroniosPorCamada, FILE *arquivo)
 //void imprimeResumo(Neuronio *neuronios, int *neuroniosPorCamada)
 {
-        int camadasQuantidade = 1+sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
+        int camadasQuantidade = NUMERO_DE_CAMADAS;//1+sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
         int neuronioAtual = 0;
         int numeroDeEntradas = 0;
 	int numeroDeNeuronios = 0;
@@ -666,7 +667,7 @@ int treinaRedeNeuronal (Neuronio *neuronios, int *neuroniosPorCamada, InputMatri
         int camadaContador = 0;
         int entrada = 0;
         int target = 0;
-        int camadasQuantidade = 1+sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
+        int camadasQuantidade = NUMERO_DE_CAMADAS;//1+sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
         int entradasQuantidade = -1;
         int saidasQuantidade = 0;
         int neuronioContador = 0;
@@ -772,8 +773,10 @@ int treinaRedeNeuronal (Neuronio *neuronios, int *neuroniosPorCamada, InputMatri
                         //printf(", Erro Quadratico: %f",erro);
                         erro = derivadaDoErroQuadratico(neuronios[neuronioContador-1].saida,targets[0].linha[entradasQuantidade]);
 
-		logaPesos(log,neuronios,neuroniosPorCamada,erroQuadratico(neuronios[neuronioContador-1].saida,targets[0].linha[entradasQuantidade]));
-		fprintf(log,"\n");
+		if (LOGENABLE) {
+		        logaPesos(log,neuronios,neuroniosPorCamada,erroQuadratico(neuronios[neuronioContador-1].saida,targets[0].linha[entradasQuantidade]));
+        		fprintf(log,"\n");
+		}
 
 
                         if (!backpropagation(neuronios[neuronioContador-1].saida,erro,neuroniosPorCamada,neuronios)) { exit(1); };
@@ -1090,7 +1093,7 @@ void imprimePrevisao(Neuronio *neuronios,InputMatrix *previsao, FILE *testeFile,
 		{
 			printf("%f; ",previsao[contadorLinha].linha[contadorEntrada]);
 		}
-		printf("\t\t%f\n",previsaoResultados[contadorLinha]);
+		printf("\t->\t%f\n",previsaoResultados[contadorLinha]);
 	}
 }
 
@@ -1191,6 +1194,8 @@ int main(void)
 	fclose(treinoFile);
 	fclose(configFile);
 	fclose(saidaFile);
-	fclose(logFile);	
-        
+	fclose(logFile);
+	
+	printf("\n\n");	
+        return 1;       
 }
