@@ -58,7 +58,7 @@ char	saida[32];
 
 void imprimeCreditos (void)
 {
-	printf("\n\n\tRede Neural Artificial Perceptron Multi-Camadas com Retro-Propagacao \n\tImplementado em 23/05/2017 por:\tGeraldo Rabelo (geraldo.rabelo@gmail.com)\n");
+	printf("\n\n\tRede Neural Artificial Perceptron Multi-Camadas com Retro-Propagacao \n\tImplementado em 23/05/2017 por\tGeraldo Rabelo (geraldo.rabelo@gmail.com)\n");
 }
 
 //how to use
@@ -71,7 +71,7 @@ void imprimeComoUsar (void)
 //how it works
 void imprimeComoFunciona (void)
 {
-	printf("\n\t\t\"Aprendizado Supervisionado por Correcao e Erro baseado no\n\t\tmetodo do Gradiente Descendente (minimizacao global, com Momentum)\"\n");
+	printf("\n\t\t\"Aprendizado Supervisionado por Correcao de Erro baseado no\n\t\tmetodo do Gradiente Descendente (minimizacao global, com Momentum)\"\n");
 }
 
 //função com 5 opções para ativação
