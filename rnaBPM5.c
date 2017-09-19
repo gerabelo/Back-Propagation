@@ -63,7 +63,7 @@ void imprimeCreditos (void)
 //how to use
 void imprimeComoUsar (void)
 {
-	printf("\n\tArquivos auxiliares:\n\t\ttreino.dat\t\tVetor de Entradas Classificadas\n\t\tteste.dat\t\tVetor de Entradas sem Classificação\n\t\tconfig.dat\t\tParametros de configuracao contendo:\n\n\t\t\t(exemplo)\n\n\t\t\t0.5\t\t\tTaxa de aprendizagem\n\t\t\t20000\t\t\tNumero Maximo de Epocas\n\t\t\t2\t\t\tFuncao de Ativacao:\n\n\t\t\t\t\t\t\t1-Sigmoid\n\t\t\t\t\t\t\t2-Tangente Hiperbolica\n\t\t\t\t\t\t\t3-ArcTan\n\t\t\t\t\t\t\t4-ReLU\n");
+	printf("\n\t\tArquivos auxiliares:\n\t\ttreino.dat\t\tVetor de Entradas Classificadas\n\t\tteste.dat\t\tVetor de Entradas sem Classificação\n\t\tconfig.dat\t\tParametros de configuracao contendo:\n\n\t\t\t(exemplo)\n\n\t\t\t0.5\t\t\tTaxa de aprendizagem\n\t\t\t20000\t\t\tNumero Maximo de Epocas\n\t\t\t2\t\t\tFuncao de Ativacao:\n\n\t\t\t\t\t\t\t1-Sigmoid\n\t\t\t\t\t\t\t2-Tangente Hiperbolica\n\t\t\t\t\t\t\t3-ArcTan\n\t\t\t\t\t\t\t4-ReLU\n");
 
 }
 
@@ -293,7 +293,7 @@ void imprimeResumo(Neuronio *neuronios, int *neuroniosPorCamada, FILE *arquivo)
 			printf("\n\t\t\t");
                         if (contadorCamadas == 0)
                         {
-                                printf("%.3f;\t",neuronios[neuronioAtual].pesos[0]);
+                                printf("%.3f; ",neuronios[neuronioAtual].pesos[0]);
                                 fprintf(arquivo,"%d:%d:%.3f\n",contadorCamadas,neuronioAtual,neuronios[neuronioAtual].pesos[0]);
                         }
                         else
@@ -303,7 +303,7 @@ void imprimeResumo(Neuronio *neuronios, int *neuroniosPorCamada, FILE *arquivo)
                                 for (int entrada = 0; entrada < numeroDeEntradas; entrada++)
                                 {
 					//if (entrada % 8 == 0) { printf("\n\t\t\t"); }
-                                        printf("%.3f;\t",neuronios[neuronioAtual].pesos[entrada]);
+                                        printf("%.3f; ",neuronios[neuronioAtual].pesos[entrada]);
                                         fprintf(arquivo,"%d:%d:%.3f\n",contadorCamadas,neuronioAtual,neuronios[neuronioAtual].pesos[entrada]);                                        
                                 }
                         }
@@ -1081,9 +1081,12 @@ void imprimePrevisao(Neuronio *neuronios,InputMatrix *previsao, FILE *testeFile,
 	}
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
-        memset(saida,'\0',32);
+	double start_treino, end_treino, total_treino;
+	start_treino = clock();
+        
+	memset(saida,'\0',32);
 
 	FILE *treinoFile = NULL;
         FILE *testeFile = NULL;
@@ -1126,16 +1129,7 @@ int main(void)
 		targets[0].linha[contadorLinha] = getAlvos(treinoFile,contadorLinha);
 	}
 	
-	carregaConfig(configFile);
-	
-	//char neuroniosPorCamadaPrintfSaida[32];
-	//memset(neuroniosPorCamadaPrintfSaida,'\0',32);
-	//for (int contadorCamadas = 0; contadorCamadas<NUMERO_DE_CAMADAS; contadorCamadas++)
-        //{
-                //sprintf(neuroniosPorCamadaPrintfSaida,"%d",neuroniosPorCamada[contadorCamadas]);
-                //printf("\n%d\n",neuroniosPorCamada[contadorCamadas]);
-        //}
-                
+	carregaConfig(configFile);                
 
         sprintf(saida,"Rede_Neural_%s_A(%.2f)_E(%d)_N(%d)_C(%d).dat",getTipoAtivacao(tipoAtivacao),taxaDeAprendizado,MAX_EPOCAS,getTotalDeNeuroniosNaRede(neuroniosPorCamada),NUMERO_DE_CAMADAS);
 
@@ -1148,6 +1142,7 @@ int main(void)
 	imprimeComoUsar();
 	printf("\n\n\t[ Base de Treino: \"%s\" ]\n",TREINO);
 	treinaRedeNeuronal(RNA,neuroniosPorCamada,inputs,targets,logFile);
+	end_treino = clock();
 	imprimeResumo(RNA,neuroniosPorCamada,saidaFile);
         printf("\n\n");
                        
@@ -1177,6 +1172,8 @@ int main(void)
 	fclose(treinoFile);
 	fclose(configFile);
 	fclose(saidaFile);
-	fclose(logFile);	
-        printf("\n\n");
+	fclose(logFile);
+	//end_t = clock();
+	total_treino = (double)(end_treino-start_treino)/CLOCKS_PER_SEC;
+        printf("\n\t\tRede treinada em %.2f segundos.\n\n",total_treino);
 }
