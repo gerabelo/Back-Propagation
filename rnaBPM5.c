@@ -1,5 +1,5 @@
 /* 
-        Rede Neural Artificial 
+        Rede Neural Artificial Perceptron Multi-Camadas
         geraldo.rabelo@gmail.com
         23/05/2017
 	06/06/2017 - atualizacoes: funcoes de ativacao diversas; momentum.
@@ -57,7 +57,7 @@ char	saida[32];
 
 void imprimeCreditos (void)
 {
-	printf("\n\n\tRede Neural Artificial com Retro-Propagacao \n\tImplementado em 23/05/2017 por:\tGeraldo Rabelo (geraldo.rabelo@gmail.com)\n");
+	printf("\n\n\tRede Neural Artificial Perceptron Multi-Camadas com Retro-Propagacao \n\tImplementado em 23/05/2017 por:\tGeraldo Rabelo (geraldo.rabelo@gmail.com)\n");
 }
 
 //how to use
