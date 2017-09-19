@@ -1,5 +1,5 @@
 /* 
-        Rede Neural Artificial Perceptron Multi-Camadas
+        Rede Neural Artificial 
         geraldo.rabelo@gmail.com
         23/05/2017
 	06/06/2017 - atualizacoes: funcoes de ativacao diversas; momentum.
@@ -16,7 +16,7 @@
 #define MAX_VALOR	10
 #define DELIMITER	59
 #define CONFIG		"config.dat"
-#define LOG		"log.csv"
+#define LOG		"debug_weights.dat"
 #define TREINO          "treino.dat"
 #define PREVISAO        "teste.dat"
 
