@@ -1,7 +1,8 @@
 /* 
         Rede Neural Artificial 
-        geraldo.rabelo@gmail.com
-        23/05/2017
+	Perceptron Multi-Camadas treinada por Back Propagation com Momentum
+	
+        geraldo.rabelo@gmail.com 23/05/2017
 	06/06/2017 - atualizacoes: funcoes de ativacao diversas; momentum.
 */
 
