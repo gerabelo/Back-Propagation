@@ -46,26 +46,30 @@ struct neuronio
 
 typedef struct neuronio Neuronio;
 
-int MAX_EPOCAS          = 0;
-int DEBUG               = 0;
-int tipoAtivacao        = 0;
-int NUMERO_DE_CAMADAS   = 0;
-float taxaDeAprendizado = 0.0; //loaded from file
-int neuroniosQuantidade = 0;
-int *neuroniosPorCamada = NULL;
+int	MAX_EPOCAS          = 0;
+int	DEBUG               = 0;
+int	tipoAtivacao        = 0;
+int	NUMERO_DE_CAMADAS   = 0;
+float	taxaDeAprendizado   = 0.0; //loaded from file
+int	neuroniosQuantidade = 0;
+int	*neuroniosPorCamada = NULL;
+char	saida[32];
 
-void imprimeCreditos (void) {
-	printf("\n\n\tRede Neural Artificial com Retro-Propagacao \n\tImplementado em 23/05/2017 por:\n\t\tGeraldo Rabelo (geraldo.rabelo@gmail.com)\n");
+void imprimeCreditos (void)
+{
+	printf("\n\n\tRede Neural Artificial com Retro-Propagacao \n\tImplementado em 23/05/2017 por:\tGeraldo Rabelo (geraldo.rabelo@gmail.com)\n");
 }
 
 //how to use
-void imprimeComoUsar (void) {
-	printf("\n\tArquivos auxiliares:\n\t\ttreino.dat\t\tVetor de Entradas\n\t\tconfig.dat\t\tParametros de configuracao contendo:\n\n\t\t\t0.5\t\t\tTaxa de aprendizagem\n\t\t\t20000\t\t\tNumero Maximo de Epocas\n\t\t\t2\t\t\tFuncao de Ativacao: 1-Sigmoid 2-Tangente Hiperbolica 3-ArcTan 4-ReLU\n");
+void imprimeComoUsar (void)
+{
+	printf("\n\tArquivos auxiliares:\n\t\ttreino.dat\t\tVetor de Entradas Classificadas\n\t\tteste.dat\t\tVetor de Entradas sem Classificação\n\t\tconfig.dat\t\tParametros de configuracao contendo:\n\n\t\t\t(exemplo)\n\n\t\t\t0.5\t\t\tTaxa de aprendizagem\n\t\t\t20000\t\t\tNumero Maximo de Epocas\n\t\t\t2\t\t\tFuncao de Ativacao:\n\n\t\t\t\t\t\t\t1-Sigmoid\n\t\t\t\t\t\t\t2-Tangente Hiperbolica\n\t\t\t\t\t\t\t3-ArcTan\n\t\t\t\t\t\t\t4-ReLU\n");
 
 }
 
 //how it works
-void imprimeComoFunciona (void) {
+void imprimeComoFunciona (void)
+{
 	printf("\n\t\t\"Aprendizado Supervisionado por Correcao e Erro baseado no\n\t\tmetodo do Gradiente Descendente (minimizacao global, com Momentum)\"\n");
 }
 
@@ -129,7 +133,7 @@ Neuronio* criaRedeNeuronal(int *neuroniosPorCamada)
 	int numeroDeEntradas = 0;
 	int neuronioAtual = 0;
 
-       	camadasQuantidade = 1+sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
+       	camadasQuantidade = NUMERO_DE_CAMADAS;//1+sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
         
         int camadasQuantidade_contador = camadasQuantidade;
         
@@ -198,7 +202,7 @@ Neuronio* criaRedeNeuronal(int *neuroniosPorCamada)
 
 void ajustaPesosAntigos(Neuronio *neuronios,int *neuroniosPorCamada)
 {
-	int numeroDeCamadas = sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
+	int numeroDeCamadas = NUMERO_DE_CAMADAS;//sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
 	int numeroDeNeuronios = 0;
 	int numeroDePesos = 0;
 
@@ -238,8 +242,8 @@ void imprimeRedeNeuronal(Neuronio *neuronios, int *neuroniosPorCamada)
                         {
                                 printf("\n  Numero de entradas: 1");
                                 //neuronios da camada de entrada tem apenas uma entrada com peso unitário                          
-                                printf("\n   Valor da Entrada 1/Peso: %f / %f",neuronios[neuronioAtual].entradas[0],neuronios[neuronioAtual].pesos[0]);
-                                printf("\n   Saida: %f",neuronios[neuronioAtual].saida);
+                                printf("\n   Valor da Entrada 1/Peso: %.3f / %.3f",neuronios[neuronioAtual].entradas[0],neuronios[neuronioAtual].pesos[0]);
+                                printf("\n   Saida: %.3f",neuronios[neuronioAtual].saida);
                         }
                         else
                         {
@@ -248,9 +252,9 @@ void imprimeRedeNeuronal(Neuronio *neuronios, int *neuroniosPorCamada)
                            
                                 for (int entrada = 0; entrada < numeroDeEntradas; entrada++)
                                 {
-                                        printf("\n   Valor da Entrada %d/Peso: %f / %f",entrada,neuronios[neuronioAtual].entradas[entrada],neuronios[neuronioAtual].pesos[entrada]);
+                                        printf("\n   Valor da Entrada %d/Peso: %.3f / %.3f",entrada,neuronios[neuronioAtual].entradas[entrada],neuronios[neuronioAtual].pesos[entrada]);
                                 }
-                                printf("\n    Saida: %f",neuronios[neuronioAtual].saida);
+                                printf("\n    Saida: %.3f",neuronios[neuronioAtual].saida);
                         }
 			if (neuronioAtual < neuroniosQuantidade) neuronioAtual++;
                 }
@@ -272,27 +276,25 @@ void imprimeResumo(Neuronio *neuronios, int *neuroniosPorCamada, FILE *arquivo)
                 numeroDeNeuronios += neuroniosPorCamada[contadorCamadas];
         }
 
-	if (DEBUG == 0) 
-	{
 	        printf("\n\t\t%d Neuronios distribuidos em %d camadas\n",numeroDeNeuronios,camadasQuantidade);
 
                 for (int contadorCamadas = 0; contadorCamadas<camadasQuantidade; contadorCamadas++)
                 {
                         printf("\t\t\t%d Neuronios na camada %d\n",neuroniosPorCamada[contadorCamadas],contadorCamadas);
                 }
-        }
         
         for (int contadorCamadas = 0; contadorCamadas<camadasQuantidade; contadorCamadas++)
         {
-                if (DEBUG == 0) printf("\n\n\t\tPesos auto-ajustados para a camada %d:\n\t\t",contadorCamadas);
+                printf("\n\n\t\tPesos auto-ajustados para a camada %d:\n\t\t",contadorCamadas);
 
                 for (int contadorNeuroniosPorCamada = 0; contadorNeuroniosPorCamada<neuroniosPorCamada[contadorCamadas]; contadorNeuroniosPorCamada++)
                 {
-                        if (contadorNeuroniosPorCamada % 4 == 0) printf("\n\t\t\t");
+                        //if (contadorNeuroniosPorCamada % 4 == 0) printf("\n\t\t\t");
+			printf("\n\t\t\t");
                         if (contadorCamadas == 0)
                         {
-                                if (DEBUG == 0) printf("%f; ",neuronios[neuronioAtual].pesos[0]);
-                                fprintf(arquivo,"%d:%d:%f\n",contadorCamadas,neuronioAtual,neuronios[neuronioAtual].pesos[0]);
+                                printf("%.3f;\t",neuronios[neuronioAtual].pesos[0]);
+                                fprintf(arquivo,"%d:%d:%.3f\n",contadorCamadas,neuronioAtual,neuronios[neuronioAtual].pesos[0]);
                         }
                         else
                         {
@@ -300,15 +302,16 @@ void imprimeResumo(Neuronio *neuronios, int *neuroniosPorCamada, FILE *arquivo)
                            
                                 for (int entrada = 0; entrada < numeroDeEntradas; entrada++)
                                 {
-                                        if (DEBUG == 0) printf("%f; ",neuronios[neuronioAtual].pesos[entrada]);
-                                        fprintf(arquivo,"%d:%d:%f\n",contadorCamadas,neuronioAtual,neuronios[neuronioAtual].pesos[entrada]);                                        
+					//if (entrada % 8 == 0) { printf("\n\t\t\t"); }
+                                        printf("%.3f;\t",neuronios[neuronioAtual].pesos[entrada]);
+                                        fprintf(arquivo,"%d:%d:%.3f\n",contadorCamadas,neuronioAtual,neuronios[neuronioAtual].pesos[entrada]);                                        
                                 }
                         }
 			if (neuronioAtual < neuroniosQuantidade) neuronioAtual++;
                 }
 
         }
-        if (DEBUG == 0) printf("\n\n\tPesos salvos em arquivo (\"output_*.dat\"), no formato CAMADA:NEURONIO:PESO");
+        printf("\n\n\tPesos salvos em arquivo: \"%s\", no formato CAMADA:NEURONIO:PESO",saida);
 }
 
 float erroQuadratico (float saida, float alvo)
@@ -319,7 +322,7 @@ float erroQuadratico (float saida, float alvo)
 float derivadaDoErroQuadratico (float saida, float alvo)
 {
 	float resultado = saida-alvo;
-	if (DEBUG == 1) printf("\n    derivada do Erro quadratico: %f - %f = %f",saida,alvo,resultado);
+	//if (DEBUG == 1) printf("\n    derivada do Erro quadratico: %.3f - %.3f = %.3f",saida,alvo,resultado);
         return resultado;
 }
 
@@ -380,7 +383,7 @@ float calculaDelta (Neuronio *neuronios,int neuronioAtual,int *neuroniosPorCamad
 	numeroDeNeuroniosCamadaSeguinte = neuroniosPorCamada[camadaAtual+1];
 	quantidadeDeParcelasNaSomaDoDeltaAtual = numeroDeNeuroniosCamadaSeguinte;
 
-	if (DEBUG == 1) printf("\n   [Delta]:\n   Camada %d de %d",camadaAtual,totalCamadas);
+	//if (DEBUG == 1) printf("\n   [Delta]:\n   Camada %d de %d",camadaAtual,totalCamadas);
 	
 	if (camadaAtual < (totalCamadas-1))
 	{
@@ -389,7 +392,7 @@ float calculaDelta (Neuronio *neuronios,int neuronioAtual,int *neuroniosPorCamad
 		{
 
 				indexNeuroniosCamadaSeguinte = getTotalDeNeuroniosNaRede(neuroniosPorCamada)-neuroniosPorCamada[camadaAtual+1];	
-				if (DEBUG == 1) printf("\n   Neuronio %d; Peso %d; Parcela %d de %d",indexNeuroniosCamadaSeguinte,contadorDeslocadoPeloBias,neuronioAtual,quantidadeDeParcelasNaSomaDoDeltaAtual);
+				//if (DEBUG == 1) printf("\n   Neuronio %d; Peso %d; Parcela %d de %d",indexNeuroniosCamadaSeguinte,contadorDeslocadoPeloBias,neuronioAtual,quantidadeDeParcelasNaSomaDoDeltaAtual);
 
 				resultado += neuronios[indexNeuroniosCamadaSeguinte].pesosAntigos[neuronioAtual-2]*calculaDelta(neuronios,indexNeuroniosCamadaSeguinte,neuroniosPorCamada,camadaAtual+1,erro,neuronioAtual);
 		
@@ -399,7 +402,7 @@ float calculaDelta (Neuronio *neuronios,int neuronioAtual,int *neuroniosPorCamad
 			{
 				indexNeuroniosCamadaSeguinte = getTotalDeNeuroniosNaRede(neuroniosPorCamada)-neuroniosPorCamada[camadaAtual+1]+contador;	
 				contadorDeslocadoPeloBias = contador+0;
-				if (DEBUG == 1) printf("\n   Neuronio %d; Peso %d; Parcela %d de %d",indexNeuroniosCamadaSeguinte,contadorDeslocadoPeloBias,contador,quantidadeDeParcelasNaSomaDoDeltaAtual);
+				//if (DEBUG == 1) printf("\n   Neuronio %d; Peso %d; Parcela %d de %d",indexNeuroniosCamadaSeguinte,contadorDeslocadoPeloBias,contador,quantidadeDeParcelasNaSomaDoDeltaAtual);
 
 				resultado += neuronios[indexNeuroniosCamadaSeguinte].pesosAntigos[contadorDeslocadoPeloBias]*calculaDelta(neuronios,indexNeuroniosCamadaSeguinte,neuroniosPorCamada,camadaAtual+1,erro,neuronioAtual);
 			}
@@ -407,11 +410,11 @@ float calculaDelta (Neuronio *neuronios,int neuronioAtual,int *neuroniosPorCamad
 	} else {
 		//ultima camada
 		//alterar isto para multiplas saidas
-		if (DEBUG == 1) printf("\n   Neuronio %d; Parcela %d; Camada %d de %d",neuronioAtual,quantidadeDeParcelasNaSomaDoDeltaAtual,camadaAtual,totalCamadas);
+		//if (DEBUG == 1) printf("\n   Neuronio %d; Parcela %d; Camada %d de %d",neuronioAtual,quantidadeDeParcelasNaSomaDoDeltaAtual,camadaAtual,totalCamadas);
 		resultado = erro;		
 	}
 
-	if (DEBUG == 1) printf("\n    Delta Resultado: %f",resultado);
+	//if (DEBUG == 1) printf("\n    Delta Resultado: %.3f",resultado);
 	return resultado;
 
 }
@@ -437,12 +440,12 @@ float soma (int camadaAnterior, int *neuroniosPorCamada, int neuronio, Neuronio 
         //neuronio += 1;
         
         primeiroNeuronioCamadaAnterior = getPrimeiroNeuronioDaCamada (camadaAnterior,neuroniosPorCamada);
-        if (DEBUG == 1) printf("\n\n [SOMA]\n Total neuronios na camada %d: %d; primeiro: %d",camadaAnterior,neuroniosPorCamada[camadaAnterior],primeiroNeuronioCamadaAnterior);
+        //if (DEBUG == 1) printf("\n\n [SOMA]\n Total neuronios na camada %d: %d; primeiro: %d",camadaAnterior,neuroniosPorCamada[camadaAnterior],primeiroNeuronioCamadaAnterior);
         int linhaContador = 0;
         
 //      BIAS
 //        resultado = neuronios[neuronio].entradas[0]*neuronios[neuronio].pesos[0];
-//        if (DEBUG == 1) printf("\n  [Bias] entrada: %f; peso: %f",neuronios[neuronio].entradas[0],neuronios[neuronio].pesos[0]);
+//        if (DEBUG == 1) printf("\n  [Bias] entrada: %.3f; peso: %.3f",neuronios[neuronio].entradas[0],neuronios[neuronio].pesos[0]);
         
         for (int contadorNeuroniosPorCamada = primeiroNeuronioCamadaAnterior; contadorNeuroniosPorCamada < (neuroniosPorCamada[camadaAnterior]+primeiroNeuronioCamadaAnterior);contadorNeuroniosPorCamada++)
         {
@@ -454,7 +457,7 @@ float soma (int camadaAnterior, int *neuroniosPorCamada, int neuronio, Neuronio 
                 neuronios[neuronio].entradas[linhaContador] = produtoParcial;
                 entradaAtual = neuronios[neuronio].entradas[linhaContador];
                 
-                if (DEBUG == 1) printf("\n -- [Neuronio %d <- %d:%f] Valor na Entrada %d do neuronio %d: %f; Peso: %f; Resultado: %f",neuronio,contadorNeuroniosPorCamada,neuronios[contadorNeuroniosPorCamada].saida,linhaContador,neuronio,entradaAtual,pesoAtual,resultado);
+                //if (DEBUG == 1) printf("\n -- [Neuronio %d <- %d:%.3f] Valor na Entrada %d do neuronio %d: %.3f; Peso: %.3f; Resultado: %.3f",neuronio,contadorNeuroniosPorCamada,neuronios[contadorNeuroniosPorCamada].saida,linhaContador,neuronio,entradaAtual,pesoAtual,resultado);
                 linhaContador++;
         }
         
@@ -482,7 +485,7 @@ int backpropagation(float saida, float erro, int *neuroniosPorCamada, Neuronio *
 	float momentum = 0.0;
 	float taxaMomentum = 0.0;
         
-        if (DEBUG == 1) printf("\n\n[Back Propagation] :");
+        //if (DEBUG == 1) printf("\n\n[Back Propagation] :");
         
         while (totalCamadas > 0)
         {
@@ -490,13 +493,13 @@ int backpropagation(float saida, float erro, int *neuroniosPorCamada, Neuronio *
                 //portanto deve saltar para a primeira camada oculta
                 
                 camadaAtual = totalCamadas;
-                if (DEBUG == 1) printf("\n\n Camada atual: %d",camadaAtual),printf("\n Neuronios nesta camada: %d",neuroniosPorCamada[camadaAtual]); 
+                //if (DEBUG == 1) printf("\n\n Camada atual: %d",camadaAtual),printf("\n Neuronios nesta camada: %d",neuroniosPorCamada[camadaAtual]); 
                 
                 //pegar o primeiro neuronio desta camada
                 indexNeuronio = getPrimeiroNeuronioDaCamada(camadaAtual,neuroniosPorCamada);
                 //pegar o ultimo neuronio desta camada
                 ultimoNeuronio = getUltimoNeuronioDaCamada(camadaAtual,neuroniosPorCamada);
-                if (DEBUG == 1) printf("\n primeiro Neuronio: %d; ultimo Neuronio: %d",indexNeuronio,ultimoNeuronio);
+                //if (DEBUG == 1) printf("\n primeiro Neuronio: %d; ultimo Neuronio: %d",indexNeuronio,ultimoNeuronio);
                 
                 //processa neuronios desda camada
                 for (int neuronioContador = indexNeuronio; neuronioContador <= ultimoNeuronio; neuronioContador++)
@@ -505,23 +508,23 @@ int backpropagation(float saida, float erro, int *neuroniosPorCamada, Neuronio *
                         inputsNeuronio = neuroniosPorCamada[camadaAtual-1];
 //                        delta = calculaDelta(neuronios,neuronioContador);
 
-                        if (DEBUG == 1)
+                        /*if (DEBUG == 1)
                         {
                                 printf("\n Entradas do neuronio %d: %d",neuronioContador,inputsNeuronio);
                                 //processar as entradas do neuronio
                                 for (int entradaContador = 0; entradaContador < inputsNeuronio; entradaContador++)
                                 {
-                                        printf("\n  (%d) valor: %f", entradaContador,neuronios[neuronioContador].entradas[entradaContador]);
+                                        printf("\n  (%d) valor: %.3f", entradaContador,neuronios[neuronioContador].entradas[entradaContador]);
                                 }
-                        }
+                        }*/
 
 			//numero de pesos é igual ao numero de inputs
 			//pesos[0] é bias. fixo em 1.
 			//o algoritmo do BP pode reduzir o valor do bias (inicialmente grande) enquanto aumenta o valor dos pesos.
-			if (DEBUG == 1) printf("\n Pesos (sem ajuste) do neuronio %d: %d",neuronioContador,inputsNeuronio);
+			//if (DEBUG == 1) printf("\n Pesos (sem ajuste) do neuronio %d: %d",neuronioContador,inputsNeuronio);
                         for (int pesosContador = 0; pesosContador < inputsNeuronio; pesosContador++)
                         {
-                                if (DEBUG == 1) printf("\n  (%d) valor: %f", pesosContador,neuronios[neuronioContador].pesos[pesosContador]);
+                                //if (DEBUG == 1) printf("\n  (%d) valor: %.3f", pesosContador,neuronios[neuronioContador].pesos[pesosContador]);
 				//if (pesosContador > 0)
 				//{
 					saidaDoNeuronioAnterior = neuronios[neuronioContador].entradas[pesosContador]/neuronios[neuronioContador].pesos[pesosContador];
@@ -535,7 +538,7 @@ int backpropagation(float saida, float erro, int *neuroniosPorCamada, Neuronio *
 					if (derivada != derivadaSaida)
 					{
 						taxaMomentum = taxaDeAprendizado+((rand() % 10+1)/100.0);
-						//printf("\ntaxaMomento: %f",taxaMomentum);
+						//printf("\ntaxaMomento: %.3f",taxaMomentum);
 						deltaPeso = delta*derivada*derivadaSaida*saidaDoNeuronioAnterior;
 
 						if (neuronios[neuronioContador].momentum[pesosContador] == 0.0)
@@ -548,13 +551,13 @@ int backpropagation(float saida, float erro, int *neuroniosPorCamada, Neuronio *
 
 						neuronios[neuronioContador].momentum[pesosContador] = deltaPeso;
 
-						if (DEBUG == 1) printf("\n  (%d) Ajustado para: %f >> %f + %f*%f*%f*%f*%f; DerivadaSaida: %f",pesosContador,novoPeso,pesoAntigo,taxaDeAprendizado,delta,derivada,saidaDoNeuronioAnterior,derivadaSaida,derivadaSaida);
+						//if (DEBUG == 1) printf("\n  (%d) Ajustado para: %.3f >> %.3f + %.3f*%.3f*%.3f*%.3f*%.3f; DerivadaSaida: %.3f",pesosContador,novoPeso,pesoAntigo,taxaDeAprendizado,delta,derivada,saidaDoNeuronioAnterior,derivadaSaida,derivadaSaida);
 
 					} else {
 
 						taxaMomentum = taxaDeAprendizado+((rand() % 10+1)/100.0);
 						deltaPeso = delta*derivada*saidaDoNeuronioAnterior;
-						//printf("\ntaxaMomento: %f",taxaMomentum);
+						//printf("\ntaxaMomento: %.3f",taxaMomentum);
 
 						if (neuronios[neuronioContador].momentum[pesosContador] == 0.0)
 						{
@@ -566,7 +569,7 @@ int backpropagation(float saida, float erro, int *neuroniosPorCamada, Neuronio *
 
 						neuronios[neuronioContador].momentum[pesosContador] = deltaPeso;
 
-						if (DEBUG == 1) printf("\n  (%d) Ajustado para: %f >> %f + %f*%f*%f*%f",pesosContador,novoPeso,pesoAntigo,taxaDeAprendizado,delta,derivada,saidaDoNeuronioAnterior);
+						//if (DEBUG == 1) printf("\n  (%d) Ajustado para: %.3f >> %.3f + %.3f*%.3f*%.3f*%.3f",pesosContador,novoPeso,pesoAntigo,taxaDeAprendizado,delta,derivada,saidaDoNeuronioAnterior);
 					}
 					neuronios[neuronioContador].pesosAntigos[pesosContador] = neuronios[neuronioContador].pesos[pesosContador];
 					neuronios[neuronioContador].pesos[pesosContador] = novoPeso;
@@ -594,7 +597,7 @@ void logaPesos(FILE *log, Neuronio *neuronios,int *neuroniosPorCamada, float err
         int contadorCamadas = 0;
         int neuronioAtual = 0;
 
-	fprintf(log,"%f",erro);
+	fprintf(log,"%.3f",erro);
 
 	for(contadorCamadas = 0; contadorCamadas <= totalCamadas; contadorCamadas++)
 	{
@@ -616,8 +619,8 @@ void logaPesos(FILE *log, Neuronio *neuronios,int *neuroniosPorCamada, float err
 	        	        
 		        for (pesoContador = 0; pesoContador < totalPesosDoNeuronio; pesoContador++)
 		        {
-//			        fprintf(log,";%d:%f",neuronioAtual,neuronios[neuronioAtual].pesos[pesoContador]);
-			        fprintf(log,",%f",neuronios[neuronioAtual].pesos[pesoContador]);
+//			        fprintf(log,";%d:%.3f",neuronioAtual,neuronios[neuronioAtual].pesos[pesoContador]);
+			        fprintf(log,",%.3f",neuronios[neuronioAtual].pesos[pesoContador]);
 		        }
 		        neuronioAtual++;
 	        }		
@@ -668,7 +671,7 @@ int treinaRedeNeuronal (Neuronio *neuronios, int *neuroniosPorCamada, InputMatri
         int camadaContador = 0;
         int entrada = 0;
         int target = 0;
-        int camadasQuantidade = 1+sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
+        int camadasQuantidade = NUMERO_DE_CAMADAS;//1+sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
         int entradasQuantidade = -1;
         int saidasQuantidade = 0;
         int neuronioContador = 0;
@@ -686,7 +689,7 @@ int treinaRedeNeuronal (Neuronio *neuronios, int *neuroniosPorCamada, InputMatri
         {
         
         
-                if (DEBUG == 2) printf("\n\nEpoca %d de %d:",epocaContador+1,MAX_EPOCAS);
+                //if (DEBUG == 2) printf("\n\nEpoca %d de %d:",epocaContador+1,MAX_EPOCAS);
                 entradasQuantidade = 0;
                 entradaContador = 0;
                 neuronioContador = 0;
@@ -701,16 +704,16 @@ int treinaRedeNeuronal (Neuronio *neuronios, int *neuroniosPorCamada, InputMatri
                 {
                   entradasQuantidade++;
                 }*/
-                if (DEBUG == 5) printf("\n%d entradas",entradasQuantidade);
+                //if (DEBUG == 5) printf("\n%d entradas",entradasQuantidade);
 
                 while (entradasQuantidade > 0)
                 {
-                        if (DEBUG == 2) printf("\n");
+                        //if (DEBUG == 2) printf("\n");
                         entradasQuantidade--;                
                         camadaAtual = 0;
                         neuronioContador = 0;
 
-			if (DEBUG == 1) imprimeRedeNeuronal(neuronios,neuroniosPorCamada);
+			//if (DEBUG == 1) imprimeRedeNeuronal(neuronios,neuroniosPorCamada);
 
                         while (camadaAtual < camadasQuantidade)
                         {
@@ -722,14 +725,14 @@ int treinaRedeNeuronal (Neuronio *neuronios, int *neuroniosPorCamada, InputMatri
                                         {
                                                 
                                                 entradaContador = neuronioPorCamadaContador;
-                                                if (DEBUG == 1) printf("\n>> Numero de Neuronios da Camada %d: %d",camadaAtual,neuroniosPorCamada[camadaAtual]);
-                                                if (DEBUG == 5) printf("\n%d dimensões",neuroniosPorCamada[0]);
+                                                //if (DEBUG == 1) printf("\n>> Numero de Neuronios da Camada %d: %d",camadaAtual,neuroniosPorCamada[camadaAtual]);
+                                                //if (DEBUG == 5) printf("\n%d dimensões",neuroniosPorCamada[0]);
                                                 
                                                 while (entradaContador < neuroniosPorCamada[camadaAtual])
                                                 {
                                                         
                                                         neuronios[neuronioPorCamadaContador].saida = entradas[entradasQuantidade].linha[entradaContador];
-                                                        if ((DEBUG == 1) || (DEBUG == 5)) printf("\n [Neuronio %d] Saida: %f; Entrada contador: %d",neuronioPorCamadaContador,neuronios[neuronioPorCamadaContador].saida,entradaContador);
+                                                        //if ((DEBUG == 1) || (DEBUG == 5)) printf("\n [Neuronio %d] Saida: %.3f; Entrada contador: %d",neuronioPorCamadaContador,neuronios[neuronioPorCamadaContador].saida,entradaContador);
                                                         neuronioContador++;
                                                         neuronioPorCamadaContador++;
                                                         entradaContador++;
@@ -737,21 +740,21 @@ int treinaRedeNeuronal (Neuronio *neuronios, int *neuroniosPorCamada, InputMatri
                                         }
                                 } else {
                                                 entradaContador = 0;
-                                                if (DEBUG == 1) printf("\n\nNumero de Neuronios da Camada %d: %d",camadaAtual,neuroniosPorCamada[camadaAtual]);
+                                                //if (DEBUG == 1) printf("\n\nNumero de Neuronios da Camada %d: %d",camadaAtual,neuroniosPorCamada[camadaAtual]);
                                                 while (entradaContador < neuroniosPorCamada[camadaAtual])
                                                 {                                                        
                                                         somaTotal = soma(camadaAtual-1,neuroniosPorCamada,neuronioContador,neuronios);
 							saida = ativacao(somaTotal,tipoAtivacao);
-							if (DEBUG == 1) printf("\n -- Soma: %f; Ativacao: %f",somaTotal,saida);
+							//if (DEBUG == 1) printf("\n -- Soma: %.3f; Ativacao: %.3f",somaTotal,saida);
                                                         neuronios[neuronioContador].saida = saida;
-                                                        if ((DEBUG == 1) || (DEBUG == 5)) 
+                                                        /*if ((DEBUG == 1) || (DEBUG == 5)) 
                                                         {
-                                                                printf("\n -- [Neuronio: %d] Saida: %f; Index neuronio-camada: %d",neuronioContador,neuronios[neuronioContador].saida,entradaContador);
+                                                                printf("\n -- [Neuronio: %d] Saida: %.3f; Index neuronio-camada: %d",neuronioContador,neuronios[neuronioContador].saida,entradaContador);
 							        for (int entrada = 0; entrada < neuroniosPorCamada[camadaAtual-1]; entrada++) 
 							        {
-								        printf("\n ---  Valor na entrada %d do neuronio %d: %f",entrada,neuronioContador,neuronios[neuronioContador].entradas[entrada]);
+								        printf("\n ---  Valor na entrada %d do neuronio %d: %.3f",entrada,neuronioContador,neuronios[neuronioContador].entradas[entrada]);
 							        }
-                                                        }
+                                                        }*/
                                                         neuronioContador++;                                                        
                                                         entradaContador++;
                                                 }
@@ -759,19 +762,19 @@ int treinaRedeNeuronal (Neuronio *neuronios, int *neuroniosPorCamada, InputMatri
                                 }
                                 camadaAtual++;
                         }
-                        if ((DEBUG == 2) || (DEBUG == 5)) printf("\n ---  [Linha %d] Saida: %f, Alvo: %f",entradasQuantidade,neuronios[neuronioContador-1].saida,targets[0].linha[entradasQuantidade]);
-			if (DEBUG == 0) if (epocaContador == MAX_EPOCAS-1) 
+                        //if ((DEBUG == 2) || (DEBUG == 5)) printf("\n ---  [Linha %d] Saida: %.3f, Alvo: %.3f",entradasQuantidade,neuronios[neuronioContador-1].saida,targets[0].linha[entradasQuantidade]);
+			if (epocaContador == MAX_EPOCAS-1) 
 			{
 			        printf("\n\t\tEntrada %d: { ",entradasQuantidade);
 			        for (entradaContador = 0; entradaContador < neuroniosPorCamada[0]-1; entradaContador++)
 			        {
-			                printf("%f,",neuronios[entradaContador].saida);
+			                printf("%.3f,",neuronios[entradaContador].saida);
 			        }
 			        
-			        printf("%f }; Alvo: %f; Previsão: %f",neuronios[entradaContador].saida,targets[0].linha[entradasQuantidade],neuronios[neuronioContador-1].saida);
+			        printf("%.3f }; Alvo: %.3f; Previsão: %.3f",neuronios[entradaContador].saida,targets[0].linha[entradasQuantidade],neuronios[neuronioContador-1].saida);
 			}
 
-                        //printf(", Erro Quadratico: %f",erro);
+                        //printf(", Erro Quadratico: %.3f",erro);
                         erro = derivadaDoErroQuadratico(neuronios[neuronioContador-1].saida,targets[0].linha[entradasQuantidade]);
 
 		logaPesos(log,neuronios,neuroniosPorCamada,erroQuadratico(neuronios[neuronioContador-1].saida,targets[0].linha[entradasQuantidade]));
@@ -783,10 +786,9 @@ int treinaRedeNeuronal (Neuronio *neuronios, int *neuroniosPorCamada, InputMatri
                 }
         }
 
-	if (DEBUG == 0) printf ("\n\n\t\tNumero de Epocas: %d",MAX_EPOCAS);
-	if (DEBUG == 0) printf ("\n\t\tTaxa de Aprendizado: %f\n",taxaDeAprendizado);
-	if (DEBUG == 0)
-	{
+	printf ("\n\n\t\tNumero de Epocas: %d",MAX_EPOCAS);
+	printf ("\n\t\tTaxa de Aprendizado: %.3f\n",taxaDeAprendizado);
+	
 					printf("\n\t\tFuncao de Ativacao: (%d) ",tipoAtivacao);
 					
 					char retorno[11];
@@ -795,27 +797,9 @@ int treinaRedeNeuronal (Neuronio *neuronios, int *neuroniosPorCamada, InputMatri
 					
 					printf("%s",retorno);
 
-					/*switch(tipoAtivacao)
-					{
-						case 1: 
-							printf("SIGMOID");
-							break;
-						case 2: 
-							printf("TANH");
-							break;
-						case 3: 
-							printf("ATAN");
-							break;
-						case 4:
-							printf("Leaky ReLU");
-							break;
-						case 5:
-							printf("GAUSSIAN");
-							break;
-					}*/
 
 					printf("\n");
-	}
+	
         return 1;
 }
 
@@ -934,7 +918,7 @@ float getEntrada(FILE *arquivo, int linhaArquivo, int entradaArquivo)
 		memset(linha,'\0',MAX_LINHA);
 		linhaContador++;
 	}
-//	printf("\nentrada: %f",resultado);
+//	printf("\nentrada: %.3f",resultado);
 	return resultado;
 }
 
@@ -992,7 +976,8 @@ void carregaConfig(FILE *arquivo)
 					NUMERO_DE_CAMADAS = atoi(valor);
 					neuroniosPorCamada = malloc(NUMERO_DE_CAMADAS*sizeof(int));
 				}
-                                if (linhaContador == 5) {
+                                if (linhaContador == 5)
+				{
 					lerNeuroniosNaLinha(linha,neuroniosPorCamada);	
 				}
 
@@ -1006,7 +991,7 @@ void carregaConfig(FILE *arquivo)
 
 void prever (Neuronio *neuronios,int *neuroniosPorCamada, InputMatrix *previsao, float *previsaoResultados)
 {
-	//int totalCamadas = sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);        
+	//int totalCamadas = sizeof(neuroniosPorCamada)/sizeof(neuroniosPorCamada[0]);
 	int totalCamadas = NUMERO_DE_CAMADAS;
         int totalNeuroniosNaCamada = 0;
         int totalNeuronios = 0;        
@@ -1041,7 +1026,7 @@ void prever (Neuronio *neuronios,int *neuroniosPorCamada, InputMatrix *previsao,
                 for (int contadorEntradas = 0; contadorEntradas<totalEntradas; contadorEntradas++)
                 {
                         neuronios[contadorEntradas].saida = previsao[contadorLinhasEntrada].linha[contadorEntradas];
-                        //printf("\nneuronio %d: %f %d %d",contadorEntradas,neuronios[contadorEntradas].saida,contadorLinhasEntrada,contadorEntradas);
+                        //printf("\nneuronio %d: %.3f %d %d",contadorEntradas,neuronios[contadorEntradas].saida,contadorLinhasEntrada,contadorEntradas);
                 }
                 
                 
@@ -1064,15 +1049,15 @@ void prever (Neuronio *neuronios,int *neuroniosPorCamada, InputMatrix *previsao,
                                         
                                         
                                         soma += neuronios[neuronioContador].entradas[contadorEntradas];
-                                        //printf("\npeso do neronio %d: %f * saida do neuronio %d: %f = %f [%f]",neuronioContador,neuronios[neuronioContador].pesos[contadorEntradas],contadorEntradas,neuronios[contadorEntradas].saida,(neuronios[neuronioContador].pesos[contadorEntradas]*neuronios[contadorEntradas].saida),soma);
+                                        //printf("\npeso do neronio %d: %.3f * saida do neuronio %d: %.3f = %.3f [%.3f]",neuronioContador,neuronios[neuronioContador].pesos[contadorEntradas],contadorEntradas,neuronios[contadorEntradas].saida,(neuronios[neuronioContador].pesos[contadorEntradas]*neuronios[contadorEntradas].saida),soma);
                                         contadorNeuronioAnterior++;
                                 }                        
                                 neuronios[neuronioContador].saida = ativacao(soma,tipoAtivacao);
                                 //printf("\ntipoAtivacao: %d",tipoAtivacao);
-                                //printf("\nsaida do neuronio %d: %f",neuronioContador,neuronios[neuronioContador].saida);
+                                //printf("\nsaida do neuronio %d: %.3f",neuronioContador,neuronios[neuronioContador].saida);
                         }              
                 }
-                //printf("\n\t\tSaida do Neuronio %d: %f",neuronioContador,neuronios[neuronioContador-1].saida);
+                //printf("\n\t\tSaida do Neuronio %d: %.3f",neuronioContador,neuronios[neuronioContador-1].saida);
                 previsaoResultados[previsaoResultadoContador] = neuronios[neuronioContador-1].saida;
                 previsaoResultadoContador++;
         }
@@ -1090,15 +1075,14 @@ void imprimePrevisao(Neuronio *neuronios,InputMatrix *previsao, FILE *testeFile,
 	        printf("\t\t");
 		for (int contadorEntrada = 0; contadorEntrada < quantidadeEntradasPorLinha; contadorEntrada++)
 		{
-			printf("%f; ",previsao[contadorLinha].linha[contadorEntrada]);
+			printf("%.3f; ",previsao[contadorLinha].linha[contadorEntrada]);
 		}
-		printf("\t\t%f\n",previsaoResultados[contadorLinha]);
+		printf("\t->\t%.3f\n",previsaoResultados[contadorLinha]);
 	}
 }
 
 int main(void)
 {
-        char saida[32];
         memset(saida,'\0',32);
 
 	FILE *treinoFile = NULL;
@@ -1153,16 +1137,16 @@ int main(void)
         //}
                 
 
-        sprintf(saida,"output_%s_A%.2f_E%d_N%d_C%d.dat",getTipoAtivacao(tipoAtivacao),taxaDeAprendizado,MAX_EPOCAS,getTotalDeNeuroniosNaRede(neuroniosPorCamada),NUMERO_DE_CAMADAS);
+        sprintf(saida,"Rede_Neural_%s_A(%.2f)_E(%d)_N(%d)_C(%d).dat",getTipoAtivacao(tipoAtivacao),taxaDeAprendizado,MAX_EPOCAS,getTotalDeNeuroniosNaRede(neuroniosPorCamada),NUMERO_DE_CAMADAS);
 
-        printf("\n%s\n",saida);
+        //printf("\n\t\"%s\"\n",saida);
         saidaFile = fopen(saida,"w+");	
 
         Neuronio *RNA = criaRedeNeuronal(neuroniosPorCamada);
 	imprimeCreditos();
 	imprimeComoFunciona();
 	imprimeComoUsar();
-	printf("\n\n\t[ Resultado do Processo de Aprendizado ]\n");
+	printf("\n\n\t[ Base de Treino: \"%s\" ]\n",TREINO);
 	treinaRedeNeuronal(RNA,neuroniosPorCamada,inputs,targets,logFile);
 	imprimeResumo(RNA,neuroniosPorCamada,saidaFile);
         printf("\n\n");
@@ -1194,5 +1178,5 @@ int main(void)
 	fclose(configFile);
 	fclose(saidaFile);
 	fclose(logFile);	
-        
+        printf("\n\n");
 }
