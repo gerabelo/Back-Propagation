@@ -42,7 +42,7 @@ struct neuronio
     float       *pesosAntigos; //para o algoritmo BP
     float       *momentum; //para buscar o minimo global
     float       saida;
-    int         camada;
+    //int         camada;
 } RNA;
 
 typedef struct neuronio Neuronio;
@@ -74,7 +74,6 @@ void imprimeComoFunciona (void)
 	printf("\n\t\t\"Aprendizado Supervisionado por Correcao de Erro baseado no\n\t\tmetodo do Gradiente Descendente (minimizacao global, com Momentum)\"\n");
 }
 
-//função com 5 opções para ativação
 float ativacao (float z, int tipo)
 {
 	float resultado = 0.0;
@@ -170,7 +169,7 @@ Neuronio* criaRedeNeuronal(int *neuroniosPorCamada)
                                 neuronios[neuronioAtual].pesos[0]       = 1.0;
 				neuronios[neuronioAtual].pesosAntigos[0]= neuronios[neuronioAtual].pesos[0];
                                 neuronios[neuronioAtual].saida          = 0.0;
-                                neuronios[neuronioAtual].camada         = 0;
+                                //neuronios[neuronioAtual].camada         = 0;
 				neuronios[neuronioAtual].momentum[0]    = 0.0;
                         }
                         else
@@ -192,7 +191,7 @@ Neuronio* criaRedeNeuronal(int *neuroniosPorCamada)
                                 }
 
                                 neuronios[neuronioAtual].saida  = 0.0;
-                                neuronios[neuronioAtual].camada = contadorCamadas;                        
+                                //neuronios[neuronioAtual].camada = contadorCamadas;                        
                         }
                         if (neuronioAtual < neuroniosQuantidade) neuronioAtual++;
                 }
