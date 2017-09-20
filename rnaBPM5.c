@@ -64,7 +64,7 @@ void imprimeCreditos (void)
 //how to use
 void imprimeComoUsar (void)
 {
-	printf("\n\t\tArquivos auxiliares:\n\t\ttreino.dat\t\tVetor de Entradas Classificadas\n\t\tteste.dat\t\tVetor de Entradas sem Classificação\n\t\tconfig.dat\t\tParametros de configuracao contendo:\n\n\t\t\t(exemplo)\n\n\t\t\t0.5\t\t\tTaxa de aprendizagem\n\t\t\t20000\t\t\tNumero Maximo de Epocas\n\t\t\t2\t\t\tFuncao de Ativacao:\n\n\t\t\t\t\t\t\t1-Sigmoid\n\t\t\t\t\t\t\t2-Tangente Hiperbolica\n\t\t\t\t\t\t\t3-ArcTan\n\t\t\t\t\t\t\t4-ReLU\n");
+	printf("\n\t\tArquivos auxiliares:\n\n\t\ttreino.dat\t\tVetor de Entradas Classificadas\n\t\tteste.dat\t\tVetor de Entradas sem Classificação\n\t\tconfig.dat\t\tParametros de configuracao contendo:\n\n\t\t\t(exemplo)\n\n\t\t\t0.5\t\t\tTaxa de aprendizagem\n\t\t\t20000\t\t\tNumero Maximo de Epocas\n\t\t\t2\t\t\tFuncao de Ativacao:\n\n\t\t\t\t\t\t\t1-Sigmoid\n\t\t\t\t\t\t\t2-Tangente Hiperbolica\n\t\t\t\t\t\t\t3-ArcTan\n\t\t\t\t\t\t\t4-ReLU\n");
 
 }
 
@@ -778,8 +778,8 @@ int treinaRedeNeuronal (Neuronio *neuronios, int *neuroniosPorCamada, InputMatri
                         //printf(", Erro Quadratico: %.3f",erro);
                         erro = derivadaDoErroQuadratico(neuronios[neuronioContador-1].saida,targets[0].linha[entradasQuantidade]);
 
-		logaPesos(log,neuronios,neuroniosPorCamada,erroQuadratico(neuronios[neuronioContador-1].saida,targets[0].linha[entradasQuantidade]));
-		fprintf(log,"\n");
+		//////logaPesos(log,neuronios,neuroniosPorCamada,erroQuadratico(neuronios[neuronioContador-1].saida,targets[0].linha[entradasQuantidade]));
+		//////fprintf(log,"\n");
 
 
                         if (!backpropagation(neuronios[neuronioContador-1].saida,erro,neuroniosPorCamada,neuronios)) { exit(1); };
