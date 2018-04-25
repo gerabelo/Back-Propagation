@@ -1,6 +1,6 @@
 ***Back Propagation***  
   
-Olá, talvez você ja tenha uma boa noção do que o Algoritmo Backpropagation é e esteja em dúvida apenas sobre a sua implementação em linguagem ANSI-C, então pesso desculpas por este briefing.  
+Olá, talvez você ja tenha uma boa noção do que o Algoritmo Backpropagation é e esteja em dúvida apenas sobre a sua implementação em linguagem ANSI-C, então peço desculpas por este briefing.  
   
 A Inteligência  Artificial, ao longo dos seus mais de 50 anos de existência, desenvolveu algumas ferramentas bastante interessantes. O mestrando finlandês, **Seppo Linnainmaa**, publicou, em 1970, um método utilizado em _Redes Neurais Artificiais_ (com Aprendizado Supervisionado) chamado _Automatic Differentiation_ que mais tarde ficou conhecido apenas por _Back Propagation_.  
 O _BP_ baseia-se na minimização do erro proposta pelos matemáticos Cauchy, 1847, e Hadamard, 1908, conhecida por “_Gradiente Descendente_”, ajustando os pesos da rede através do cálculo da influência de cada neurônio nos erros obtidos durante a fase de treinamento.
